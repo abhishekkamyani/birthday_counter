@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Birthday!</title>
+    <style>
+        body {
+            background-color: black;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .container {
+            margin: 50px 20px;
+        }
+        #bday{
+            font-size: 4rem;
+        }
+        #bday span{
+            color: red;
+        }
+        @media (width < 765px) {
+            h1{
+                font-size: 1.5rem;
+            }
+            h2{
+                font-size: 1rem;
+            }
+            #bday{
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>My Birthday</h1>
+        <p>Time Remaining</p>
+        <h2 id="timeRemaining"></h2>
+        <h2 id="bday"></h2>
+        <form action="">
+            <input type="date" name="userBday" id="userBday">
+            <button type="button" id="btnDone">Done</button>
+        </form>
+    </div>
+
+    <script>
+            
+
+        // var eventDay = new Date();
+        //     eventDay.setFullYear(bdayDate[0],bdayDate[1]-1,bdayDate[2]);
+        //     eventDay.setHours(0, 0, 0);
+
+        // var curDay = Date.now();
+        // ms = (eventDay.getTime() - curDay);
+        // console.log(ms);
+
+        function myBirthday() {
+            const eventDay = new Date();
+
+            const userBday = document.getElementById('userBday');
+            const bdayValue = userBday.value;
+            const bdayDate = bdayValue.split('-');
+
+            eventDay.setFullYear(bdayDate[0],bdayDate[1]-1,bdayDate[2]);
+            eventDay.setHours(0, 0, 0);
+
+            const curDay = Date.now();
+            const ms = (eventDay.getTime() - curDay);
+
+            var myBdayTag = document.getElementById('timeRemaining');
+            let seconds = Math.floor(ms / 1000);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            let days = Math.floor(hours / 24);
+
+            hours %= 24;
+            minutes %= 60;
+            seconds %= 60;
+            if(ms <= 0 ){
+                clearInterval(timeRef);
+                myBdayTag.innerHTML = `0 Days: 0 Hours: 0 Minutes: 0 Seconds`;
+                const myBday = document.querySelector('#bday');
+                myBday.innerHTML = `Today is My <span>Birthday!</span>`;
+            }
+            else{
+                myBdayTag.innerHTML = `${days} Days: ${hours} Hours: ${minutes} Minutes: ${seconds} Seconds`;
+            }
+        }
+
+        var timeRef;
+        btnDone.addEventListener('click', (e) =>{
+            const myBday = document.querySelector('#bday');
+            myBday.innerHTML = ``;
+             timeRef = setInterval(myBirthday, 1000);
+        });
+    </script>
+</body>
+
+</html>
